@@ -46,9 +46,36 @@ var saveTasks = function() {
 };
 
 $(".list-group").on("click", "p", function() {
-  console.log("<p> was clicked");
+  var text = $(this)
+    .text()
+    .trim();
+  var textInput = $("<textarea>")
+    .addClass("form-control")
+    .val(text);
+  $(this).replaceWith(textInput);
+  textInput.trigger("focus");
 });
 
+$(".list-group").on("blur", "textarea", function() {
+  var text = $(this)
+    .val()
+    .trim();
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+  var index = $(this)
+    .closest(".list-group-item")
+    .index();
+// recreate p element
+  var taskP = $("<p>")
+    .addClass("m-1")
+    .text(text);
+
+// replace textarea with p element
+  $(this).replaceWith(taskP);
+
+});
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
